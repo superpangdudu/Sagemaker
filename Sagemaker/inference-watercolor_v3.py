@@ -591,8 +591,11 @@ def predict_fn(input_data, m):
         if 'blip' in input_data:
             blip_input = blip_processor(init_image, return_tensors="pt").to("cuda")
             blip_out = blip_model.generate(**blip_input)
-            prompt = blip_processor.decode(blip_out[0], skip_special_tokens=True)
-            logging.info(f'########## new prompt by BLIP: {prompt}')
+            blip_prompt = blip_processor.decode(blip_out[0], skip_special_tokens=True)
+
+            prompt += f', {blip_prompt}'
+
+            logging.info(f'########## new prompt after BLIP: {prompt}')
 
         #
         guess_mode = False
