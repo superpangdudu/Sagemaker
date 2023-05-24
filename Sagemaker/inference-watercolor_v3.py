@@ -484,9 +484,9 @@ def get_bucket_and_key(s3uri):
     get_bucket_and_key is helper function
     """
     pos = s3uri.find('/', 5)
-    bucket = s3uri[5: pos]
+    bkt = s3uri[5: pos]
     key = s3uri[pos + 1:]
-    return bucket, key
+    return bkt, key
 
 
 def prepare_opt(input_data):
