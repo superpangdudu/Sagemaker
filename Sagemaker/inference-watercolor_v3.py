@@ -31,6 +31,7 @@ from diffusers import KDPM2AncestralDiscreteScheduler
 from diffusers import DDIMScheduler
 
 from safetensors.torch import load_file, save_file
+from transformers import BlipProcessor, BlipForConditionalGeneration
 
 
 logging.basicConfig(level=logging.INFO)
@@ -446,6 +447,17 @@ logging.info('########## models creation done')
 
 
 #########################################################################################
+# BLIP
+logging.info('########## start to create BLIP processor')
+blip_processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+
+logging.info('########## start to create BLIP model')
+blip_model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base").to("cuda")
+
+logging.info('########## BLIP creation done')
+
+
+#########################################################################################
 def model_fn(model_dir):
     logging.info('########## model_fn start ##########')
     logging.info('########## model_fn end ##########')
@@ -511,6 +523,9 @@ def prepare_opt(input_data):
     if 'watermark' in input_data:
         opt["watermark"] = 1
 
+    if 'blip' in input_data:
+        opt["blip"] = 1
+
     logging.info(f"=================prepare_opt=================\n{opt}")
     return opt
 
@@ -525,8 +540,6 @@ def predict_fn(input_data, m):
 
     ##########
     # FIXME a workaround to do some runtime routines
-
-
     ##########
 
     try:
@@ -574,12 +587,22 @@ def predict_fn(input_data, m):
         height = input_data.get('height', 512)
         guidance_scale = input_data.get('guidance_scale', DEFAULT_GUIDANCE_SCALE)
 
+        # get prompt by BLIP if necessary
+        if 'blip' in input_data:
+            blip_input = blip_processor(init_image, return_tensors="pt").to("cuda")
+            blip_out = blip_model.generate(**blip_input)
+            prompt = blip_processor.decode(blip_out[0], skip_special_tokens=True)
+            logging.info(f'########## new prompt by BLIP: {prompt}')
+
+        #
         guess_mode = False
         if 'guess' in input_data:
             guess_mode = True
 
+        #
         generator = torch.Generator(device='cuda').manual_seed(input_data["seed"])
 
+        #
         if len(controlnet_images) > 0:
             init_image = controlnet_images
 
