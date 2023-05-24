@@ -395,6 +395,8 @@ WATER_MARK_IMAGE_REMOTE_PATH = f's3://{bucket}/stablediffusion/watermark/waterma
 
 watermark_image = None
 watermark_width, watermark_height = 20, 20
+
+
 def make_watermark_on_image(img):
     global watermark_image, watermark_width, watermark_height
     if watermark_image is None:
@@ -406,11 +408,12 @@ def make_watermark_on_image(img):
         watermark_width, watermark_height = watermark_image.size
 
     image_width, image_height = img.size
-    watermark_layer = Image.new("RGBA", [image_width, image_height], (0, 0, 0, 0))
+    watermark_layer = Image.new("RGBA", (image_width, image_height), (0, 0, 0, 0))
     watermark_layer.paste(watermark_image, (image_width - (watermark_width + 10), image_height - (watermark_height + 10)))
 
     out = Image.composite(watermark_layer, img, watermark_layer)
     return out
+
 
 #########################################################################################
 # controlnet models
