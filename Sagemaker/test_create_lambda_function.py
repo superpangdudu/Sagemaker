@@ -7,7 +7,7 @@ ACCESS_KEY_ID = 'AKIAUHC5UZEKGAES5SEE'
 ACCESS_KEY_SECRET = '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'
 REGION = 'us-east-2'
 
-ENDPOINT = 'WATER-COLOR-V3-670a4d1e-f862-4601-988f-5d7fa00e25a0'
+ENDPOINT = 'WATER-COLOR-V3-3a2b3e96-b94a-4855-8ff6-57e6cfa98251'
 
 role = 'arn:aws:iam::290106689812:role/KrlyMgr'
 
@@ -29,6 +29,7 @@ lambda_client = boto3_session.client('lambda')
 
 import base64
 
+file_content = None
 with open('test_lambda.zip', 'rb') as file:
     file_content = file.read()
 
@@ -41,7 +42,7 @@ response = lambda_client.create_function(
     Role=role,
     PackageType='Zip',
     Code={
-        'ZipFile': zip_base64_encoded
+        'ZipFile': file_content
     },
     Publish=True,
     TracingConfig={
