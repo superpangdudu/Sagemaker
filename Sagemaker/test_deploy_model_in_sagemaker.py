@@ -1,4 +1,3 @@
-
 import boto3
 import sagemaker
 
@@ -14,6 +13,7 @@ from sagemaker.deserializers import JSONDeserializer
 #########################################################################################
 ACCESS_KEY_ID = 'AKIAUHC5UZEKGAES5SEE'
 ACCESS_KEY_SECRET = '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'
+REGION = 'us-east-2'
 
 INSTANCE_TYPE = 'ml.g4dn.xlarge'
 PYTHON_VERSION = 'py38'
@@ -35,16 +35,18 @@ models = [
 
 autoscaling_client = boto3.client(
     "application-autoscaling",
-    aws_access_key_id='AKIAUHC5UZEKGAES5SEE',
-    aws_secret_access_key='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',
-    region_name='us-east-2'
+    aws_access_key_id=ACCESS_KEY_ID,
+    aws_secret_access_key=ACCESS_KEY_SECRET,
+    region_name=REGION
 )
 
 boto3_session = boto3.session.Session(
-    aws_access_key_id='AKIAUHC5UZEKGAES5SEE',
-    aws_secret_access_key='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',
-    region_name='us-east-2'
+    aws_access_key_id=ACCESS_KEY_ID,
+    aws_secret_access_key=ACCESS_KEY_SECRET,
+    region_name=REGION
 )
+
+# print(boto3_session.get_available_services())
 
 sagemaker_session = sagemaker.Session(
     boto_session=boto3_session
@@ -59,7 +61,7 @@ role = 'arn:aws:iam::290106689812:role/KrlyMgr'
 print(f'role = {role}')
 
 #########################################################################################
-# TODO
+# TODO Blow config is useless
 model_name = 'sakistriker/AbyssOrangeMix3'
 lora_model = 's3://sagemaker-us-east-1-596030579944/fakemonPokMonLORA/fakemonPokMonLORA_v10Beta.safetensors'
 
@@ -147,6 +149,38 @@ def make_endpoint_scalable(endpoint_name, min_capacity, max_capacity):
     )
 
 
+def test_predict(predictor):
+    from sagemaker.async_inference.waiter_config import WaiterConfig
+
+    inputs_txt2img = {
+        "prompt": "",
+        "negative_prompt": "",
+        "steps": 20,
+        "sampler": "euler_a",
+        "seed": 52362,
+        "height": 512,
+        "width": 512,
+        "count": 2,
+        "input_image": 's3://sagemaker-us-east-2-290106689812/image/input_image_vermeer.png'
+    }
+
+    response = predictor.predict_async(inputs_txt2img)
+
+    print(f"Response object: {response}")
+    print(f"Response output path: {response.output_path}")
+    print("Start Polling to get response:")
+
+    start = time.time()
+    config = WaiterConfig(
+        max_attempts=100,  # number of attempts
+        delay=10  # time in seconds to wait between attempts
+    )
+
+    result = response.get_result(config)
+    print(f'{result}')
+    print(f"Time taken: {time.time() - start}s")
+
+
 #########################################################################################
 predictors = []
 
@@ -155,6 +189,7 @@ def do_model_deploying(name, src):
     predictor = deploy_model(name, src)
     predictors.append(predictor)
     make_endpoint_scalable(predictor.endpoint_name, MIN_ENDPOINT_CAPACITY, MAX_ENDPOINT_CAPACITY)
+    # test_predict(predictor)
 
 
 threads = []
@@ -165,7 +200,6 @@ for (n, s) in models:
 
 for t in threads:
     t.join()
-
 
 # for p in predictors:
 #     p.delete_endpoint()
