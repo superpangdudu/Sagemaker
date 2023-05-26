@@ -18,7 +18,7 @@ REGION = 'us-east-2'
 INSTANCE_TYPE = 'ml.g4dn.xlarge'
 PYTHON_VERSION = 'py38'
 
-MIN_ENDPOINT_CAPACITY = 1
+MIN_ENDPOINT_CAPACITY = 0
 MAX_ENDPOINT_CAPACITY = 8
 
 models = [
@@ -33,18 +33,22 @@ models = [
 # )
 # account_id = sts_client.get_caller_identity().get('Account')
 
-autoscaling_client = boto3.client(
-    "application-autoscaling",
-    aws_access_key_id=ACCESS_KEY_ID,
-    aws_secret_access_key=ACCESS_KEY_SECRET,
-    region_name=REGION
-)
+# autoscaling_client = boto3.client(
+#     "application-autoscaling",
+#     aws_access_key_id=ACCESS_KEY_ID,
+#     aws_secret_access_key=ACCESS_KEY_SECRET,
+#     region_name=REGION
+# )
+
 
 boto3_session = boto3.session.Session(
     aws_access_key_id=ACCESS_KEY_ID,
     aws_secret_access_key=ACCESS_KEY_SECRET,
     region_name=REGION
 )
+
+cloudwatch_client = boto3_session.client('cloudwatch')
+autoscaling_client = boto3_session.client('application-autoscaling')
 
 # print(boto3_session.get_available_services())
 
@@ -148,7 +152,44 @@ def make_endpoint_scalable(endpoint_name, min_capacity, max_capacity):
         },
     )
 
+    # response = autoscaling_client.put_scaling_policy(
+    #     PolicyName="HasBacklogWithoutCapacity-ScalingPolicy",
+    #     ServiceNamespace="sagemaker",
+    #     ResourceId=resource_id,
+    #     ScalableDimension="sagemaker:variant:DesiredInstanceCount",
+    #     PolicyType="StepScaling",
+    #     StepScalingPolicyConfiguration={
+    #         "AdjustmentType": "ChangeInCapacity",
+    #         "MetricAggregationType": "Average",
+    #         "Cooldown": 300,
+    #         "StepAdjustments": [
+    #             {
+    #                 "MetricIntervalLowerBound": 0,
+    #                 "ScalingAdjustment": 1
+    #             }
+    #         ]
+    #     },
+    # )
+    #
+    # response = cloudwatch_client.put_metric_alarm(
+    #     AlarmName='HasBacklogWithoutCapacity',
+    #     MetricName='HasBacklogWithoutCapacity',
+    #     ActionsEnabled=True,
+    #     Namespace='AWS/SageMaker',
+    #     Statistic='Average',
+    #     EvaluationPeriods=2,
+    #     DatapointsToAlarm=2,
+    #     Threshold=1,
+    #     ComparisonOperator='GreaterThanOrEqualToThreshold',
+    #     TreatMissingData='missing',
+    #     Dimensions=[
+    #         {'Name': 'EndpointName', 'Value': endpoint_name},
+    #     ],
+    #     Period=60
+    # )
 
+
+#########################################################################################
 def test_predict(predictor):
     from sagemaker.async_inference.waiter_config import WaiterConfig
 
