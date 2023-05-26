@@ -15,5 +15,5 @@ sentencepiece
 mediapipe
 xformers
 accelerate
-git+https://github.com/huggingface/diffusers
+git+https://github.com/huggingface/diffusers@15f1bab13bf3d9ca956d2398e1f550c840fa2bb1
 controlnet-aux
