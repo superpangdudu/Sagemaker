@@ -17,6 +17,7 @@ import sagemaker
 import torch
 import s3fs
 
+from diffusers import StableDiffusionImg2ImgPipeline
 from diffusers import StableDiffusionControlNetPipeline
 from diffusers import ControlNetModel
 from diffusers import AltDiffusionPipeline
@@ -425,12 +426,19 @@ for i in range(len(controlnet_configs)):
                                          torch_dtype=torch.float16)
     controlnets.append(cn)
 
-# LoRA models
+# base model
 logging.info(f'########## start to create base model {BASE_MODEL_PATH}{BASE_MODEL_NAME}')
-sd_pipeline = StableDiffusionControlNetPipeline.from_pretrained(BASE_MODEL_PATH + BASE_MODEL_NAME,
-                                                                controlnet=controlnets,
-                                                                torch_dtype=torch.float16)
 
+sd_pipeline = None
+model_path = BASE_MODEL_PATH + BASE_MODEL_NAME
+if len(controlnets) > 0:
+    sd_pipeline = StableDiffusionControlNetPipeline.from_pretrained(model_path,
+                                                                    controlnet=controlnets,
+                                                                    torch_dtype=torch.float16)
+else:
+    sd_pipeline = StableDiffusionImg2ImgPipeline.from_pretrained(model_path, torch_dtype=torch.float16)
+
+# LoRA models
 logging.info(f'########## start to create lora model')
 for i in range(len(lora_configs)):
     lora_model_name = os.path.basename(lora_configs[i].remote_model_path)
@@ -578,11 +586,17 @@ def predict_fn(input_data, m):
             img = controlnet_configs[i].getControlnetImage(init_image)
             controlnet_images.append(img)
 
+        # prepare controlnet scales
+        controlnet_conditioning_scale = []
+        for i in range(len(controlnet_configs)):
+            controlnet_scale = controlnet_configs[i].getScale()
+            controlnet_conditioning_scale.append(controlnet_scale)
+
         #
         prompt = input_data.get('prompt', 'a circle')
         negative_prompt = input_data.get('negative_prompt', 'a circle')
         num_inference_steps = input_data.get('steps', 20)
-        num_images_per_prompt = input_data.get('count', 20)
+        num_images_per_prompt = input_data.get('count', 2)
         width = input_data.get('width', 512)
         height = input_data.get('height', 512)
         guidance_scale = input_data.get('guidance_scale', DEFAULT_GUIDANCE_SCALE)
@@ -631,6 +645,9 @@ def predict_fn(input_data, m):
 
         if init_image is not None:
             params['image'] = init_image
+
+        if len(controlnet_conditioning_scale) > 0:
+            params['controlnet_conditioning_scale'] = controlnet_conditioning_scale
 
         logging.info(f'====== params = {params}')
 
