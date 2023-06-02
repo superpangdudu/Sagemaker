@@ -15,32 +15,17 @@ ACCESS_KEY_ID = 'AKIAUHC5UZEKGAES5SEE'
 ACCESS_KEY_SECRET = '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'
 REGION = 'us-east-2'
 
-INSTANCE_TYPE = 'ml.g4dn.xlarge'
+INSTANCE_TYPE = 'ml.g4dn.2xlarge'
 PYTHON_VERSION = 'py38'
 
-MIN_ENDPOINT_CAPACITY = 0
+MIN_ENDPOINT_CAPACITY = 1
 MAX_ENDPOINT_CAPACITY = 8
 
 models = [
-    ('WATER-COLOR-V3', './code')
+    ('OIL-PAINTING-V8', './code')
 ]
 
 #########################################################################################
-# sts_client = boto3.client(
-#     'sts',
-#     aws_access_key_id=ACCESS_KEY_ID,
-#     aws_secret_access_key=ACCESS_KEY_SECRET
-# )
-# account_id = sts_client.get_caller_identity().get('Account')
-
-# autoscaling_client = boto3.client(
-#     "application-autoscaling",
-#     aws_access_key_id=ACCESS_KEY_ID,
-#     aws_secret_access_key=ACCESS_KEY_SECRET,
-#     region_name=REGION
-# )
-
-
 boto3_session = boto3.session.Session(
     aws_access_key_id=ACCESS_KEY_ID,
     aws_secret_access_key=ACCESS_KEY_SECRET,
@@ -116,7 +101,7 @@ def deploy_model(name, source_dir):
         # wait=False
     )
     end_time = time.time()
-    print(f'\nmodel {name} is deployed, used {end_time - start_time}s')
+    print(f'\nmodel {name} is deployed on {endpoint_name}, used {end_time - start_time}s')
 
     return async_predictor
 
@@ -194,15 +179,15 @@ def test_predict(predictor):
     from sagemaker.async_inference.waiter_config import WaiterConfig
 
     inputs_txt2img = {
-        "prompt": "",
-        "negative_prompt": "",
+        "prompt": "oilpainting\(style\), oil painting \(medium\), masterpiece, paintbrush, a painting of ",
+        "negative_prompt": "worst quality, blurry, nsfw, zombie, blush, rough, ugly, distort, poorly drawn face, poor facial details, poorly drawn hands, poorly rendered hands, poorly drawn face, poorly drawn eyes, poorly drawn nose, poorly drawn mouth, poorly Rendered face, disfigured, deformed body features, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck, username, watermark, signature, ",
         "steps": 20,
-        "sampler": "euler_a",
+        "sampler": "dpm2_a",
         "seed": 52362,
-        "height": 512,
-        "width": 512,
+        "height": 1080,
+        "width": 720,
         "count": 2,
-        "input_image": 's3://sagemaker-us-east-2-290106689812/image/input_image_vermeer.png'
+        "input_image": 's3://sagemaker-us-east-2-290106689812/image/test_oilpainting.jpg'
     }
 
     response = predictor.predict_async(inputs_txt2img)
@@ -229,8 +214,8 @@ predictors = []
 def do_model_deploying(name, src):
     predictor = deploy_model(name, src)
     predictors.append(predictor)
-    make_endpoint_scalable(predictor.endpoint_name, MIN_ENDPOINT_CAPACITY, MAX_ENDPOINT_CAPACITY)
-    # test_predict(predictor)
+    # make_endpoint_scalable(predictor.endpoint_name, MIN_ENDPOINT_CAPACITY, MAX_ENDPOINT_CAPACITY)
+    test_predict(predictor)
 
 
 threads = []
