@@ -50,8 +50,8 @@ logging.info(f"bucket: {bucket}")
 #########################################################################################
 s3_client = boto3.client('s3')
 
-max_height = os.environ.get("max_height", 768)
-max_width = os.environ.get("max_width", 768)
+max_height = os.environ.get("max_height", 1024)
+max_width = os.environ.get("max_width", 1024)
 max_steps = os.environ.get("max_steps", 100)
 max_count = os.environ.get("max_count", 4)
 s3_bucket = os.environ.get("s3_bucket", "")
@@ -434,9 +434,12 @@ model_path = BASE_MODEL_PATH + BASE_MODEL_NAME
 if len(controlnets) > 0:
     sd_pipeline = StableDiffusionControlNetPipeline.from_pretrained(model_path,
                                                                     controlnet=controlnets,
-                                                                    torch_dtype=torch.float16)
+                                                                    torch_dtype=torch.float16,
+                                                                    safety_checker=None)
 else:
-    sd_pipeline = StableDiffusionImg2ImgPipeline.from_pretrained(model_path, torch_dtype=torch.float16)
+    sd_pipeline = StableDiffusionImg2ImgPipeline.from_pretrained(model_path,
+                                                                 torch_dtype=torch.float16,
+                                                                 safety_checker=None)
 
 # LoRA models
 logging.info(f'########## start to create lora model')
@@ -450,6 +453,9 @@ sd_pipeline.to('cuda')
 sd_pipeline.enable_model_cpu_offload()
 sd_pipeline.enable_xformers_memory_efficient_attention()
 sd_pipeline.enable_attention_slicing()
+
+# disable safety checker
+logging.info(f'########## sd_pipeline.safety_checker = {sd_pipeline.safety_checker}, try to disable it')
 
 logging.info('########## models creation done')
 
