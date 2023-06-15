@@ -15,14 +15,15 @@ ACCESS_KEY_ID = 'AKIAUHC5UZEKGAES5SEE'
 ACCESS_KEY_SECRET = '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'
 REGION = 'us-east-2'
 
-INSTANCE_TYPE = 'ml.g4dn.2xlarge'
+INSTANCE_TYPE = 'ml.g4dn.xlarge'
 PYTHON_VERSION = 'py38'
 
-MIN_ENDPOINT_CAPACITY = 1
+MIN_ENDPOINT_CAPACITY = 0
 MAX_ENDPOINT_CAPACITY = 8
 
 models = [
-    ('OIL-PAINTING-V8', './code')
+    ('TEST-WATERCOLOR-V3', './code_watercolor_v3', 'inference-watercolor_v3.py'),
+    ('TEST-OILPAINTING-V8', './code_oil-painting_v8', 'inference-oilpainting_v8.py'),
 ]
 
 #########################################################################################
@@ -70,12 +71,12 @@ model_path = 's3://sagemaker-us-east-2-290106689812/stablediffusion/assets/model
 
 
 #########################################################################################
-def deploy_model(name, source_dir):
+def deploy_model(name, source_dir, entry):
     model = PyTorchModel(
         sagemaker_session=sagemaker_session,
         name=None,
         model_data=model_path,
-        entry_point='inference.py',
+        entry_point=entry,
         source_dir=source_dir,
         role=role,
         framework_version=framework_version,
@@ -125,53 +126,57 @@ def make_endpoint_scalable(endpoint_name, min_capacity, max_capacity):
         ScalableDimension="sagemaker:variant:DesiredInstanceCount",
         PolicyType="TargetTrackingScaling",
         TargetTrackingScalingPolicyConfiguration={
-            "TargetValue": 2.0,
+            "TargetValue": 1.2,
             "CustomizedMetricSpecification": {
                 "MetricName": "ApproximateBacklogSizePerInstance",
                 "Namespace": "AWS/SageMaker",
                 "Dimensions": [{"Name": "EndpointName", "Value": endpoint_name}],
                 "Statistic": "Average",
             },
-            "ScaleInCooldown": 600,  # duration until scale in begins (down to zero)
-            "ScaleOutCooldown": 300  # duration between scale out attempts
+            "ScaleInCooldown": 3600,  # duration until scale in begins (down to zero)
+            "ScaleOutCooldown": 1800  # duration between scale out attempts
         },
     )
 
-    # response = autoscaling_client.put_scaling_policy(
-    #     PolicyName="HasBacklogWithoutCapacity-ScalingPolicy",
-    #     ServiceNamespace="sagemaker",
-    #     ResourceId=resource_id,
-    #     ScalableDimension="sagemaker:variant:DesiredInstanceCount",
-    #     PolicyType="StepScaling",
-    #     StepScalingPolicyConfiguration={
-    #         "AdjustmentType": "ChangeInCapacity",
-    #         "MetricAggregationType": "Average",
-    #         "Cooldown": 300,
-    #         "StepAdjustments": [
-    #             {
-    #                 "MetricIntervalLowerBound": 0,
-    #                 "ScalingAdjustment": 1
-    #             }
-    #         ]
-    #     },
-    # )
-    #
-    # response = cloudwatch_client.put_metric_alarm(
-    #     AlarmName='HasBacklogWithoutCapacity',
-    #     MetricName='HasBacklogWithoutCapacity',
-    #     ActionsEnabled=True,
-    #     Namespace='AWS/SageMaker',
-    #     Statistic='Average',
-    #     EvaluationPeriods=2,
-    #     DatapointsToAlarm=2,
-    #     Threshold=1,
-    #     ComparisonOperator='GreaterThanOrEqualToThreshold',
-    #     TreatMissingData='missing',
-    #     Dimensions=[
-    #         {'Name': 'EndpointName', 'Value': endpoint_name},
-    #     ],
-    #     Period=60
-    # )
+    response = autoscaling_client.put_scaling_policy(
+        PolicyName="HasBacklogWithoutCapacity-ScalingPolicy-" + endpoint_name,
+        ServiceNamespace="sagemaker",  # The namespace of the service that provides the resource.
+        ResourceId=resource_id,  # Endpoint name
+        ScalableDimension="sagemaker:variant:DesiredInstanceCount",  # SageMaker supports only Instance Count
+        PolicyType="StepScaling",  # 'StepScaling' or 'TargetTrackingScaling'
+        StepScalingPolicyConfiguration={
+            "AdjustmentType": "ChangeInCapacity",
+            # Specifies whether the ScalingAdjustment value in the StepAdjustment property is an absolute number or a percentage of the current capacity.
+            "MetricAggregationType": "Maximum",  # The aggregation type for the CloudWatch metrics.
+            "Cooldown": 1800,
+            # The amount of time, in seconds, to wait for a previous scaling activity to take effect.
+            "StepAdjustments":  # A set of adjustments that enable you to scale based on the size of the alarm breach.
+                [
+                    {
+                        "MetricIntervalLowerBound": 0,
+                        "ScalingAdjustment": 1
+                    }
+                ]
+        },
+    )
+    step_scaling_policy_arn = response["PolicyARN"]
+    step_scaling_policy_alarm_name = "ScaleOutFromZero-" + endpoint_name
+    response = cloudwatch_client.put_metric_alarm(
+        AlarmName=step_scaling_policy_alarm_name,
+        MetricName='HasBacklogWithoutCapacity',
+        Namespace='AWS/SageMaker',
+        Statistic='Average',
+        EvaluationPeriods=2,
+        DatapointsToAlarm=2,
+        Threshold=1,
+        ComparisonOperator='GreaterThanOrEqualToThreshold',
+        TreatMissingData='missing',
+        Dimensions=[
+            {'Name': 'EndpointName', 'Value': endpoint_name},
+        ],
+        Period=60,
+        AlarmActions=[step_scaling_policy_arn]
+    )
 
 
 #########################################################################################
@@ -211,16 +216,16 @@ def test_predict(predictor):
 predictors = []
 
 
-def do_model_deploying(name, src):
-    predictor = deploy_model(name, src)
+def do_model_deploying(name, src, entry):
+    predictor = deploy_model(name, src, entry)
     predictors.append(predictor)
-    # make_endpoint_scalable(predictor.endpoint_name, MIN_ENDPOINT_CAPACITY, MAX_ENDPOINT_CAPACITY)
+    make_endpoint_scalable(predictor.endpoint_name, MIN_ENDPOINT_CAPACITY, MAX_ENDPOINT_CAPACITY)
     test_predict(predictor)
 
 
 threads = []
-for (n, s) in models:
-    thread = threading.Thread(target=do_model_deploying, args=(n, s))
+for (n, s, e) in models:
+    thread = threading.Thread(target=do_model_deploying, args=(n, s, e))
     thread.start()
     threads.append(thread)
 
