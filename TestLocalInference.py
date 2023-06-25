@@ -10,6 +10,7 @@ from transformers import BlipProcessor, BlipForConditionalGeneration
 from diffusers import (
     ControlNetModel,
     StableDiffusionControlNetPipeline,
+    StableDiffusionControlNetImg2ImgPipeline,
     UniPCMultistepScheduler,
     EulerDiscreteScheduler,
     EulerAncestralDiscreteScheduler,
@@ -320,7 +321,7 @@ lora_scale_params = make_inference_scale_params(lora_scale_list)
 
 #########################################################################################
 def get_controlnet_pipeline(model, controlnet):
-    controlnet_pipeline = StableDiffusionControlNetPipeline.from_pretrained(model,
+    controlnet_pipeline = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(model,
                                                                             controlnet=controlnet,
                                                                             torch_dtype=torch.float16,
                                                                             safety_checker=None)
