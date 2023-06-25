@@ -17,7 +17,9 @@ import sagemaker
 import torch
 import s3fs
 
+from diffusers import StableDiffusionImg2ImgPipeline
 from diffusers import StableDiffusionControlNetPipeline
+from diffusers import StableDiffusionControlNetImg2ImgPipeline
 from diffusers import ControlNetModel
 from diffusers import AltDiffusionPipeline
 from diffusers import AltDiffusionImg2ImgPipeline
@@ -31,6 +33,7 @@ from diffusers import KDPM2AncestralDiscreteScheduler
 from diffusers import DDIMScheduler
 
 from safetensors.torch import load_file, save_file
+from transformers import BlipProcessor, BlipForConditionalGeneration
 
 
 logging.basicConfig(level=logging.INFO)
@@ -48,8 +51,8 @@ logging.info(f"bucket: {bucket}")
 #########################################################################################
 s3_client = boto3.client('s3')
 
-max_height = os.environ.get("max_height", 768)
-max_width = os.environ.get("max_width", 768)
+max_height = os.environ.get("max_height", 1024)
+max_width = os.environ.get("max_width", 1024)
 max_steps = os.environ.get("max_steps", 100)
 max_count = os.environ.get("max_count", 4)
 s3_bucket = os.environ.get("s3_bucket", "")
@@ -67,9 +70,10 @@ schedulers = {
 }
 
 # default scheduler
-DEFAULT_SCHEDULER = 'euler_a'
+DEFAULT_SCHEDULER = 'dpm2'
 # default guidance scale
-DEFAULT_GUIDANCE_SCALE = 12
+DEFAULT_GUIDANCE_SCALE = 7
+DEFAULT_STRENGTH = 0.75
 #########################################################################################
 '''
 Model path
@@ -80,30 +84,29 @@ Lora: 'model/lora/{LoRA model name}'
 
 model_config = {
     'base_model': {
-        'name': 'watercolor_v3',
-        'path': f's3://{bucket}/model/base/watercolor_v3',
+        'name': 'oilpainting_v9',
+        'path': f's3://{bucket}/model/base/oilpainting_v9',
         'default': 'runwayml/stable-diffusion-v1-5'
     },
     'controlnets': [
         {
-            'name': 'tile',
-            'path': f's3://{bucket}/model/controlnet/control_v11f1e_sd15_tile',
-            'default': 'lllyasviel/control_v11f1e_sd15_tile',
-            'scale': 0.7
-        },
-        {
             'name': 'lineart',
             'path': f's3://{bucket}/model/controlnet/control_v11p_sd15_lineart',
             'default': 'lllyasviel/control_v11p_sd15_lineart',
-            'scale': 0.7
+            'scale': 1.0
         }
     ],
     'loras': [
-        # {
-        #     'name': 'handPaintedPortrait_v12',
-        #     'path': f's3://{bucket}/model/lora/handPaintedPortrait_v12.safetensors',
-        #     'scale': 0.8
-        # }
+        {
+            'name': 'add_detail',
+            'path': f's3://{bucket}/model/lora/add_detail.safetensors',
+            'scale': 1.6
+        },
+        {
+            'name': 'epi_noiseoffset2',
+            'path': f's3://{bucket}/model/lora/epi_noiseoffset2.safetensors',
+            'scale': 0.4
+        }
     ]
 }
 
@@ -137,7 +140,6 @@ class LineartControlnetConfig(ControlnetConfig):
         from controlnet_aux import LineartDetector
 
         super().__init__(remote_model_path, local_model_path, 'lineart', controlnet_scale)
-        logging.info('######################  start to create LineartControlnetConfig.processor')
         self.processor = LineartDetector.from_pretrained("lllyasviel/Annotators")
         logging.info('######################  LineartControlnetConfig.processor done')
 
@@ -153,7 +155,6 @@ class DepthControlnetConfig(ControlnetConfig):
         from transformers import pipeline as transformers_pipeline
 
         super().__init__(remote_model_path, local_model_path, 'depth', controlnet_scale)
-        logging.info('######################  start to create DepthControlnetConfig.depth_estimator')
         self.depth_estimator = transformers_pipeline('depth-estimation')
         logging.info('######################  DepthControlnetConfig.depth_estimator done')
 
@@ -406,7 +407,7 @@ def make_watermark_on_image(img):
         local_watermark_path = f'/tmp/{watermark}'
         download_from_s3(WATER_MARK_IMAGE_REMOTE_PATH, local_watermark_path)
 
-        watermark_image = Image.open(local_watermark_path).convert('RGB')
+        watermark_image = Image.open(local_watermark_path).convert('RGBA')
         watermark_width, watermark_height = watermark_image.size
 
     image_width, image_height = img.size
@@ -415,6 +416,7 @@ def make_watermark_on_image(img):
 
     out = Image.composite(watermark_layer, img, watermark_layer)
     return out
+
 
 #########################################################################################
 # controlnet models
@@ -425,12 +427,22 @@ for i in range(len(controlnet_configs)):
                                          torch_dtype=torch.float16)
     controlnets.append(cn)
 
-# LoRA models
+# base model
 logging.info(f'########## start to create base model {BASE_MODEL_PATH}{BASE_MODEL_NAME}')
-sd_pipeline = StableDiffusionControlNetPipeline.from_pretrained(BASE_MODEL_PATH + BASE_MODEL_NAME,
-                                                                controlnet=controlnets,
-                                                                torch_dtype=torch.float16)
 
+sd_pipeline = None
+model_path = BASE_MODEL_PATH + BASE_MODEL_NAME
+if len(controlnets) > 0:
+    sd_pipeline = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(model_path,
+                                                                           controlnet=controlnets,
+                                                                           torch_dtype=torch.float16,
+                                                                           safety_checker=None)
+else:
+    sd_pipeline = StableDiffusionImg2ImgPipeline.from_pretrained(model_path,
+                                                                 torch_dtype=torch.float16,
+                                                                 safety_checker=None)
+
+# LoRA models
 logging.info(f'########## start to create lora model')
 for i in range(len(lora_configs)):
     lora_model_name = os.path.basename(lora_configs[i].remote_model_path)
@@ -443,7 +455,22 @@ sd_pipeline.enable_model_cpu_offload()
 sd_pipeline.enable_xformers_memory_efficient_attention()
 sd_pipeline.enable_attention_slicing()
 
+# disable safety checker
+logging.info(f'########## sd_pipeline.safety_checker = {sd_pipeline.safety_checker}, try to disable it')
+sd_pipeline.safety_checker = None
+
 logging.info('########## models creation done')
+
+
+#########################################################################################
+# BLIP
+logging.info('########## start to create BLIP processor')
+blip_processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+
+logging.info('########## start to create BLIP model')
+blip_model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base").to("cuda")
+
+logging.info('########## BLIP creation done')
 
 
 #########################################################################################
@@ -485,9 +512,9 @@ def get_bucket_and_key(s3uri):
     get_bucket_and_key is helper function
     """
     pos = s3uri.find('/', 5)
-    bucket = s3uri[5: pos]
+    bkt = s3uri[5: pos]
     key = s3uri[pos + 1:]
-    return bucket, key
+    return bkt, key
 
 
 def prepare_opt(input_data):
@@ -505,12 +532,18 @@ def prepare_opt(input_data):
     opt["seed"] = input_data.get("seed", 1024)
     opt["input_image"] = input_data.get("input_image", None)
     opt["guidance_scale"] = input_data.get('guidance_scale', DEFAULT_GUIDANCE_SCALE)
+    opt["strength"] = input_data.get('strength', DEFAULT_STRENGTH)
 
     if 'guess' in input_data:
         opt["guess"] = 1
 
     if 'watermark' in input_data:
         opt["watermark"] = 1
+
+    if 'blip' in input_data:
+        opt["blip"] = 1
+    ######
+    opt["blip"] = 1 # enable BLIP for oilpainting model
 
     logging.info(f"=================prepare_opt=================\n{opt}")
     return opt
@@ -526,8 +559,6 @@ def predict_fn(input_data, m):
 
     ##########
     # FIXME a workaround to do some runtime routines
-
-
     ##########
 
     try:
@@ -566,23 +597,39 @@ def predict_fn(input_data, m):
             img = controlnet_configs[i].getControlnetImage(init_image)
             controlnet_images.append(img)
 
+        # prepare controlnet scales
+        controlnet_conditioning_scale = []
+        for i in range(len(controlnet_configs)):
+            controlnet_scale = controlnet_configs[i].getScale()
+            controlnet_conditioning_scale.append(controlnet_scale)
+
         #
         prompt = input_data.get('prompt', 'a circle')
         negative_prompt = input_data.get('negative_prompt', 'a circle')
         num_inference_steps = input_data.get('steps', 20)
-        num_images_per_prompt = input_data.get('count', 20)
+        num_images_per_prompt = input_data.get('count', 2)
         width = input_data.get('width', 512)
         height = input_data.get('height', 512)
         guidance_scale = input_data.get('guidance_scale', DEFAULT_GUIDANCE_SCALE)
+        strength = input_data.get('strength', DEFAULT_STRENGTH)
 
+        # get prompt by BLIP if necessary
+        if 'blip' in input_data:
+            blip_input = blip_processor(init_image, return_tensors="pt").to("cuda")
+            blip_out = blip_model.generate(**blip_input)
+            blip_prompt = blip_processor.decode(blip_out[0], skip_special_tokens=True)
+
+            prompt += f' {blip_prompt}'
+
+            logging.info(f'########## new prompt after BLIP: {prompt}')
+
+        #
         guess_mode = False
         if 'guess' in input_data:
             guess_mode = True
 
+        #
         generator = torch.Generator(device='cuda').manual_seed(input_data["seed"])
-
-        if len(controlnet_images) > 0:
-            init_image = controlnet_images
 
         #
         scheduler = input_data.get('sampler', DEFAULT_SCHEDULER)
@@ -600,14 +647,26 @@ def predict_fn(input_data, m):
         params['height'] = height
         params['generator'] = generator
         params['guidance_scale'] = guidance_scale
+        params['strength'] = strength
+        params['image'] = init_image
+
+        #
+        if len(controlnet_images) > 0:
+            params['control_image'] = controlnet_images
 
         if guess_mode is True:
             params['guess_mode'] = True
 
-        if init_image is not None:
-            params['image'] = init_image
+        if len(controlnet_conditioning_scale) > 0:
+            params['controlnet_conditioning_scale'] = controlnet_conditioning_scale
 
         logging.info(f'====== params = {params}')
+
+        # check params for StableDiffusionImg2ImgPipeline
+        if isinstance(sd_pipeline, StableDiffusionImg2ImgPipeline):
+            params.pop('width')
+            params.pop('height')
+            params.pop('guidance_scale')
 
         # do inference
         logging.info('====== start inference ======')
