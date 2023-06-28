@@ -21,8 +21,6 @@ from diffusers import StableDiffusionImg2ImgPipeline
 from diffusers import StableDiffusionControlNetPipeline
 from diffusers import StableDiffusionControlNetImg2ImgPipeline
 from diffusers import ControlNetModel
-from diffusers import AltDiffusionPipeline
-from diffusers import AltDiffusionImg2ImgPipeline
 
 from diffusers import EulerDiscreteScheduler
 from diffusers import EulerAncestralDiscreteScheduler
@@ -31,6 +29,7 @@ from diffusers import LMSDiscreteScheduler
 from diffusers import KDPM2DiscreteScheduler
 from diffusers import KDPM2AncestralDiscreteScheduler
 from diffusers import DDIMScheduler
+from diffusers import DPMSolverSDEScheduler
 
 from safetensors.torch import load_file, save_file
 from transformers import BlipProcessor, BlipForConditionalGeneration
@@ -60,17 +59,18 @@ custom_region = os.environ.get("custom_region", None)
 safety_checker_enable = json.loads(os.environ.get("safety_checker_enable", "false"))
 
 schedulers = {
-    "euler_a": EulerAncestralDiscreteScheduler,
-    "eular": EulerDiscreteScheduler,
-    "heun": HeunDiscreteScheduler,
-    "lms": LMSDiscreteScheduler,
-    "dpm2": KDPM2DiscreteScheduler,
-    "dpm2_a": KDPM2AncestralDiscreteScheduler,
-    "ddim": DDIMScheduler
+    "EulerAncestralDiscreteScheduler": EulerAncestralDiscreteScheduler,
+    "EulerDiscreteScheduler": EulerDiscreteScheduler,
+    "HeunDiscreteScheduler": HeunDiscreteScheduler,
+    "LMSDiscreteScheduler": LMSDiscreteScheduler,
+    "KDPM2DiscreteScheduler": KDPM2DiscreteScheduler,
+    "KDPM2AncestralDiscreteScheduler": KDPM2AncestralDiscreteScheduler,
+    "DDIMScheduler": DDIMScheduler,
+    'DPMSolverSDEScheduler': DPMSolverSDEScheduler
 }
 
 # default scheduler
-DEFAULT_SCHEDULER = 'dpm2_a'
+DEFAULT_SCHEDULER = 'DPMSolverSDEScheduler'
 # default guidance scale
 DEFAULT_GUIDANCE_SCALE = 7
 # default strength
