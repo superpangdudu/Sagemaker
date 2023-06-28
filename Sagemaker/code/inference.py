@@ -19,8 +19,9 @@ import s3fs
 
 from diffusers import StableDiffusionImg2ImgPipeline
 from diffusers import StableDiffusionControlNetPipeline
-from diffusers import StableDiffusionControlNetImg2ImgPipeline
 from diffusers import ControlNetModel
+from diffusers import AltDiffusionPipeline
+from diffusers import AltDiffusionImg2ImgPipeline
 
 from diffusers import EulerDiscreteScheduler
 from diffusers import EulerAncestralDiscreteScheduler
@@ -68,11 +69,9 @@ schedulers = {
 }
 
 # default scheduler
-DEFAULT_SCHEDULER = 'dpm2'
+DEFAULT_SCHEDULER = 'dpm2_a'
 # default guidance scale
-DEFAULT_GUIDANCE_SCALE = 7
-# default strength
-DEFAULT_STRENGTH = 0.75
+DEFAULT_GUIDANCE_SCALE = 13
 #########################################################################################
 '''
 Model path
@@ -83,16 +82,22 @@ Lora: 'model/lora/{LoRA model name}'
 
 model_config = {
     'base_model': {
-        'name': 'oilpainting_v9',
-        'path': f's3://{bucket}/model/base/oilpainting_v9',
+        'name': 'oilpainting_v8',
+        'path': f's3://{bucket}/model/base/oilpainting_v8',
         'default': 'runwayml/stable-diffusion-v1-5'
     },
     'controlnets': [
         {
+            'name': 'tile',
+            'path': f's3://{bucket}/model/controlnet/control_v11f1e_sd15_tile',
+            'default': 'lllyasviel/control_v11f1e_sd15_tile',
+            'scale': 0.8
+        },
+        {
             'name': 'lineart',
             'path': f's3://{bucket}/model/controlnet/control_v11p_sd15_lineart',
             'default': 'lllyasviel/control_v11p_sd15_lineart',
-            'scale': 1.0
+            'scale': 0.8
         }
     ],
     'loras': [
@@ -432,10 +437,10 @@ logging.info(f'########## start to create base model {BASE_MODEL_PATH}{BASE_MODE
 sd_pipeline = None
 model_path = BASE_MODEL_PATH + BASE_MODEL_NAME
 if len(controlnets) > 0:
-    sd_pipeline = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(model_path,
-                                                                           controlnet=controlnets,
-                                                                           torch_dtype=torch.float16,
-                                                                           safety_checker=None)
+    sd_pipeline = StableDiffusionControlNetPipeline.from_pretrained(model_path,
+                                                                    controlnet=controlnets,
+                                                                    torch_dtype=torch.float16,
+                                                                    safety_checker=None)
 else:
     sd_pipeline = StableDiffusionImg2ImgPipeline.from_pretrained(model_path,
                                                                  torch_dtype=torch.float16,
@@ -531,7 +536,6 @@ def prepare_opt(input_data):
     opt["seed"] = input_data.get("seed", 1024)
     opt["input_image"] = input_data.get("input_image", None)
     opt["guidance_scale"] = input_data.get('guidance_scale', DEFAULT_GUIDANCE_SCALE)
-    opt["strength"] = input_data.get('strength', DEFAULT_STRENGTH)
 
     if 'guess' in input_data:
         opt["guess"] = 1
@@ -610,7 +614,6 @@ def predict_fn(input_data, m):
         width = input_data.get('width', 512)
         height = input_data.get('height', 512)
         guidance_scale = input_data.get('guidance_scale', DEFAULT_GUIDANCE_SCALE)
-        strength = input_data.get('strength', DEFAULT_STRENGTH)
 
         # get prompt by BLIP if necessary
         if 'blip' in input_data:
@@ -631,6 +634,10 @@ def predict_fn(input_data, m):
         generator = torch.Generator(device='cuda').manual_seed(input_data["seed"])
 
         #
+        if len(controlnet_images) > 0:
+            init_image = controlnet_images
+
+        #
         scheduler = input_data.get('sampler', DEFAULT_SCHEDULER)
         if scheduler is not None:
             scheduler = schedulers.get('scheduler', DDIMScheduler)
@@ -646,15 +653,12 @@ def predict_fn(input_data, m):
         params['height'] = height
         params['generator'] = generator
         params['guidance_scale'] = guidance_scale
-        params['strength'] = strength
-        params['image'] = init_image
-
-        #
-        if len(controlnet_images) > 0:
-            params['control_image'] = controlnet_images
 
         if guess_mode is True:
             params['guess_mode'] = True
+
+        if init_image is not None:
+            params['image'] = init_image
 
         if len(controlnet_conditioning_scale) > 0:
             params['controlnet_conditioning_scale'] = controlnet_conditioning_scale

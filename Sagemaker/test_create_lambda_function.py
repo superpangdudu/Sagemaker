@@ -7,8 +7,6 @@ ACCESS_KEY_ID = 'AKIAUHC5UZEKGAES5SEE'
 ACCESS_KEY_SECRET = '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'
 REGION = 'us-east-2'
 
-ENDPOINT = 'WATER-COLOR-V3-3a2b3e96-b94a-4855-8ff6-57e6cfa98251'
-
 role = 'arn:aws:iam::290106689812:role/KrlyMgr'
 
 
@@ -30,15 +28,15 @@ lambda_client = boto3_session.client('lambda')
 import base64
 
 file_content = None
-with open('test_lambda.zip', 'rb') as file:
+with open('aws_lambda_template.zip', 'rb') as file:
     file_content = file.read()
 
 zip_base64_encoded = base64.b64encode(file_content)
 
 response = lambda_client.create_function(
-    FunctionName='test_watercolor_v3',
+    FunctionName='OIL-PAINTING-V8_handler',
     Runtime='python3.9',
-    Handler='test_lambda.lambda_handler',
+    Handler='aws_lambda_template.lambda_handler',
     Role=role,
     PackageType='Zip',
     Code={

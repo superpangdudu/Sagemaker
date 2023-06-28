@@ -148,7 +148,7 @@ def main():
     parser.add_argument(
         "--fixed_code",
         action='store_true',
-        help="if enabled, uses the same starting code across samples ",
+        help="if enabled, uses the same starting code_watercolor_v3 across samples ",
     )
     parser.add_argument(
         "--ddim_eta",

@@ -1,20 +1,188 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="69a2e57a-82a5-4cdb-a4a7-a4e33e101e0a" name="Default" comment="" />
-    <option name="TRACKING_ENABLED" value="true" />
+    <list default="true" id="69a2e57a-82a5-4cdb-a4a7-a4e33e101e0a" name="Default" comment="New digital oil painting inference, V1">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sagemaker/code_watercolor_v3/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sagemaker/code_watercolor_v5/inference-watercolor_v5.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sagemaker/code_watercolor_v5/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/TestDiffusion.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TestDiffusion.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyTxt2Img.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyTxt2Img.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sagemaker/code_digitaloil_v1/inference-digitaloil_v1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/code_digitaloil_v1/inference-digitaloil_v1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sagemaker/inference-oilpainting_v9.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/inference-oilpainting_v9.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sagemaker/test_create_lambda_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/test_create_lambda_function.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sagemaker/test_deploy_model_in_sagemaker.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/test_deploy_model_in_sagemaker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sagemaker/test_lambda.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/test_lambda.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sagemaker/test_sagemaker_runtime.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/test_sagemaker_runtime.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sagemaker/test_scaling_policy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/test_scaling_policy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestLocalInference.py" beforeDir="false" afterPath="$PROJECT_DIR$/TestLocalInference.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestMultiControlnets.py" beforeDir="false" afterPath="$PROJECT_DIR$/TestMultiControlnets.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="last_opened_file_path" value="F:/Anaconda2" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProjectId" id="2QDaGIRLEB7bBKkZsk4iHRslzyN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "E:/test/python/test/TestDiffusion/Sagemaker/code_digitaloil_v1",
+    "settings.editor.selected.configurable": "Errors"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\test\python\test\TestDiffusion\Sagemaker\code_digitaloil_v1" />
+      <recent name="E:\test\python\test\TestDiffusion\Sagemaker\code_watercolor_v5" />
+      <recent name="E:\test\python\test\TestDiffusion\Sagemaker" />
+      <recent name="E:\test\python\test\TestDiffusion\Sagemaker\code_oil-painting_v9" />
+      <recent name="E:\test\python\test\TestDiffusion\Sagemaker\code_oilpainting_v8" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\test\python\test\TestDiffusion" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.test_deploy_model_in_sagemaker (1)">
+    <configuration name="CreateNumberImages" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TestDiffusion" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/CreateNumberImages.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestConfigParams" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TestDiffusion" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/TestConfigParams.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestLocalInference" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TestDiffusion" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestLocalInference.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_deploy_model_in_sagemaker (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TestDiffusion" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sagemaker" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sagemaker/test_deploy_model_in_sagemaker.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_sagemaker_runtime" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TestDiffusion" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sagemaker" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sagemaker/test_sagemaker_runtime.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.test_deploy_model_in_sagemaker (1)" />
+        <item itemvalue="Python.CreateNumberImages" />
+        <item itemvalue="Python.TestLocalInference" />
+        <item itemvalue="Python.TestConfigParams" />
+        <item itemvalue="Python.test_sagemaker_runtime" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <created>1676539963796</created>
@@ -22,10 +190,245 @@
       <option name="presentableId" value="Default" />
       <updated>1676539963796</updated>
     </task>
+    <task id="LOCAL-00001" summary="format correction">
+      <created>1684892655865</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1684892655865</updated>
+    </task>
+    <task id="LOCAL-00002" summary="format correction">
+      <created>1684897573008</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1684897573008</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add prompt creation by BLIP">
+      <created>1684898346010</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1684898346010</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add prompt creation by BLIP">
+      <created>1684909356095</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1684909356095</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Run Sagemaker endpoint deploy locally&#10;And update requirements.txt since controlnet-aux updated, mediapipe is needed">
+      <created>1685001971804</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1685001971804</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Add test_predict">
+      <created>1685071892118</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1685071892118</updated>
+    </task>
+    <task id="LOCAL-00007" summary="set diffusers version">
+      <created>1685071917301</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1685071917301</updated>
+    </task>
+    <task id="LOCAL-00008" summary="new test files">
+      <created>1685093289266</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1685093289266</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Failed to make endpoint scalable">
+      <created>1685099412545</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1685099412545</updated>
+    </task>
+    <task id="LOCAL-00010" summary="A test function creation done">
+      <created>1685099467618</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1685099467618</updated>
+    </task>
+    <task id="LOCAL-00011" summary="For model oilpainting">
+      <created>1685602474705</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1685602474705</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Bug fixing&#10;controlnet_conditioning_scale is not used in previous version">
+      <created>1685602541768</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1685602541768</updated>
+    </task>
+    <task id="LOCAL-00013" summary="remove unused code">
+      <created>1685676753784</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1685676753784</updated>
+    </task>
+    <task id="LOCAL-00014" summary="set max resolution to 1024&#10;disable safety checker">
+      <created>1686812953570</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1686812953570</updated>
+    </task>
+    <task id="LOCAL-00015" summary="set max resolution to 1024&#10;disable safety checker">
+      <created>1686812960940</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1686812960940</updated>
+    </task>
+    <task id="LOCAL-00016" summary="enable multi end points deployment&#10;set auto scaling policy from 0 to more">
+      <created>1686813011999</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1686813011999</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Add local inference to generate multi images with different LoRA and Controlnet scale params by StableDiffusionControlNetPipeline">
+      <created>1687683077417</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1687683077417</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Change to StableDiffusionControlNetImg2ImgPipeline">
+      <created>1687683147102</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1687683147102</updated>
+    </task>
+    <task id="LOCAL-00019" summary="New inference script">
+      <created>1687683176248</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1687683176248</updated>
+    </task>
+    <task id="LOCAL-00020" summary="New Oil painting inference, V9">
+      <created>1687844493219</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1687844493219</updated>
+    </task>
+    <task id="LOCAL-00021" summary="New digital oil painting inference, V1">
+      <created>1687851923029</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1687851923029</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="requirements.txt" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="format correction" />
+    <MESSAGE value="Add prompt creation by BLIP" />
+    <MESSAGE value="Run Sagemaker endpoint deploy locally&#10;And update requirements.txt since controlnet-aux updated, mediapipe is needed" />
+    <MESSAGE value="Add test_predict" />
+    <MESSAGE value="set diffusers version" />
+    <MESSAGE value="new test files" />
+    <MESSAGE value="Failed to make endpoint scalable" />
+    <MESSAGE value="A test function creation done" />
+    <MESSAGE value="For model oilpainting" />
+    <MESSAGE value="Bug fixing&#10;controlnet_conditioning_scale is not used in previous version" />
+    <MESSAGE value="remove unused code" />
+    <MESSAGE value="set max resolution to 1024&#10;disable safety checker" />
+    <MESSAGE value="enable multi end points deployment&#10;set auto scaling policy from 0 to more" />
+    <MESSAGE value="Add local inference to generate multi images with different LoRA and Controlnet scale params by StableDiffusionControlNetPipeline" />
+    <MESSAGE value="Change to StableDiffusionControlNetImg2ImgPipeline" />
+    <MESSAGE value="New inference script" />
+    <MESSAGE value="New Oil painting inference, V9" />
+    <MESSAGE value="New digital oil painting inference, V1" />
+    <option name="LAST_COMMIT_MESSAGE" value="New digital oil painting inference, V1" />
+  </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
-    <watches-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$USER_HOME$/.conda/envs/controlnet/Lib/site-packages/sagemaker/local/local_session.py</url>
+          <line>587</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$USER_HOME$/.conda/envs/controlnet/Lib/site-packages/sagemaker/predictor_async.py</url>
+          <line>141</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$USER_HOME$/.conda/envs/controlnet/Lib/site-packages/sagemaker/local/local_session.py</url>
+          <line>565</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Sagemaker/test_create_lambda_function.py</url>
+          <line>35</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Sagemaker/test_json.py</url>
+          <line>11</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/TestLocalInference.py</url>
+          <line>331</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test/CreateNumberImages.py</url>
+          <line>16</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Sagemaker/code_digitaloil_v1/inference-digitaloil_v1.py</url>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

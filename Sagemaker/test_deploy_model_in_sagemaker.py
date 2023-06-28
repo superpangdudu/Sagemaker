@@ -11,9 +11,9 @@ from sagemaker.serializers import JSONSerializer
 from sagemaker.deserializers import JSONDeserializer
 
 #########################################################################################
-ACCESS_KEY_ID = 'AKIAUHC5UZEKGAES5SEE'
-ACCESS_KEY_SECRET = '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'
-REGION = 'us-east-2'
+ACCESS_KEY_ID = 'AKIA3SVJGCUCB5HWDUYI'
+ACCESS_KEY_SECRET = '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'
+REGION = 'us-east-1'
 
 INSTANCE_TYPE = 'ml.g4dn.xlarge'
 PYTHON_VERSION = 'py38'
@@ -22,8 +22,11 @@ MIN_ENDPOINT_CAPACITY = 0
 MAX_ENDPOINT_CAPACITY = 8
 
 models = [
-    ('TEST-WATERCOLOR-V3', './code_watercolor_v3', 'inference-watercolor_v3.py'),
-    ('TEST-OILPAINTING-V8', './code_oil-painting_v8', 'inference-oilpainting_v8.py'),
+    #('TEST-WATERCOLOR-V3', './code_watercolor_v3', 'inference-watercolor_v3.py'),
+    #('TEST-OILPAINTING-V8', './code_oil-painting_v8', 'inference-oilpainting_v8.py'),
+    #('OILPAINTING-V9', './code_oil-painting_v9', 'inference-oilpainting_v9.py'),
+    ('WATERCOLOR-V5', './code_watercolor_v5', 'inference-watercolor_v5.py'),
+    #('DIGITALOIL-V1', './code_digitaloil_v1', 'inference-digitaloil_v1.py'),
 ]
 
 #########################################################################################
@@ -47,8 +50,8 @@ bucket = sagemaker_session.default_bucket()
 print(f'bucket = {bucket}')
 
 # role = sagemaker.get_execution_role(sagemaker_session)
-role = 'arn:aws:iam::290106689812:role/KrlyMgr'
-print(f'role = {role}')
+#role = 'arn:aws:iam::290106689812:role/KrlyMgr'
+role = 'arn:aws:iam::795997508868:role/KrlyMgr'
 
 #########################################################################################
 # TODO Blow config is useless
@@ -67,7 +70,7 @@ model_environment = {
 }
 
 #########################################################################################
-model_path = 's3://sagemaker-us-east-2-290106689812/stablediffusion/assets/model.tar.gz'
+model_path = f's3://{bucket}/stablediffusion/assets/model.tar.gz'
 
 
 #########################################################################################
@@ -184,15 +187,14 @@ def test_predict(predictor):
     from sagemaker.async_inference.waiter_config import WaiterConfig
 
     inputs_txt2img = {
-        "prompt": "oilpainting\(style\), oil painting \(medium\), masterpiece, paintbrush, a painting of ",
-        "negative_prompt": "worst quality, blurry, nsfw, zombie, blush, rough, ugly, distort, poorly drawn face, poor facial details, poorly drawn hands, poorly rendered hands, poorly drawn face, poorly drawn eyes, poorly drawn nose, poorly drawn mouth, poorly Rendered face, disfigured, deformed body features, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck, username, watermark, signature, ",
-        "steps": 20,
-        "sampler": "dpm2_a",
+        "prompt": "watercolor \(style\), a watercolor painting of ",
+        "negative_prompt": "nsfw, worst quality, zombie, red skin, hole, bad anatomy, blush, (greyscale, worst quality),EasyNegativeV2, blue eyes, blurry,",
+        #"sampler": "dpm2_a",
         "seed": 52362,
         "height": 1080,
         "width": 720,
         "count": 2,
-        "input_image": 's3://sagemaker-us-east-2-290106689812/image/test_oilpainting.jpg'
+        "input_image": f's3://{bucket}/image/test.jpg'
     }
 
     response = predictor.predict_async(inputs_txt2img)

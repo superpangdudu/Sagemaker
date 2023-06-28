@@ -7,7 +7,7 @@ ACCESS_KEY_ID = 'AKIAUHC5UZEKGAES5SEE'
 ACCESS_KEY_SECRET = '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'
 REGION = 'us-east-2'
 
-ENDPOINT = 'WATER-COLOR-V3-7c562771-f399-41f5-b1c6-88fc92a4f560'
+ENDPOINT = 'WATER-COLOR-V3-3a2b3e96-b94a-4855-8ff6-57e6cfa98251'
 
 #########################################################################################
 boto3_session = boto3.session.Session(

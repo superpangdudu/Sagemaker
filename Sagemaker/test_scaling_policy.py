@@ -18,10 +18,10 @@ REGION = 'us-east-2'
 INSTANCE_TYPE = 'ml.g4dn.xlarge'
 PYTHON_VERSION = 'py38'
 
-MIN_ENDPOINT_CAPACITY = 0
+MIN_ENDPOINT_CAPACITY = 5
 MAX_ENDPOINT_CAPACITY = 10
 
-ENDPOINT = 'WATER-COLOR-V3-3a2b3e96-b94a-4855-8ff6-57e6cfa98251'
+ENDPOINT = 'WATER-COLOR-V3-2d9f5785-a4bf-44df-ac70-c4062e9392ec'
 
 boto3_session = boto3.session.Session(
     aws_access_key_id=ACCESS_KEY_ID,

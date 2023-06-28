@@ -34,7 +34,60 @@ schedulers = {
     'DDIMScheduler': DDIMScheduler
 }
 
+#########################################################################################
+model_config = {
+    'base_model': {
+        'name': 'stable-diffusion-v1-5',
+        'path': 'runwayml/stable-diffusion-v1-5'
+    },
+    'controlnets': [
+        {
+            'name': 'tile',
+            'path': 'lllyasviel/control_v11f1e_sd15_tile',
+            'scale_from': 0.8,
+            'scale_to': 1.1
+        },
+        {
+            'name': 'lineart',
+            'path': 'lllyasviel/control_v11p_sd15_lineart',
+            'scale_from': 0.8,
+            'scale_to': 1.0
+        }
+    ],
+    'loras': [
+        {
+            'name': 'add_detail',
+            'path': '',
+            'scale_from': 0.8,
+            'scale_to': 1.2
+        },
+        {
+            'name': 'epi_noiseoffset2',
+            'path': '',
+            'scale_from': 0.8,
+            'scale_to': 1.0
+        }
+    ]
+}
+
 schedulers_name = 'UniPCMultistepScheduler'
+
+# input image
+image_path = ''
+image_width = 512
+image_height = 512
+# output directory
+output_path = "./controlnet_out/"
+
+#
+generator = torch.manual_seed(0)
+
+prompt = ''
+negative_prompt = ''
+steps = 20
+num_images_per_prompt = 1
+blip_enabled = False
+strength = 0.75
 
 
 #########################################################################################
@@ -54,11 +107,7 @@ def resize_for_condition_image(input_image: Image, resolution: int):
 from safetensors.torch import load_file
 
 
-def __load_lora(
-        pipeline
-        , lora_path
-        , lora_weight=0.5
-):
+def __load_lora(pipeline, lora_path, lora_weight=0.5):
     state_dict = load_file(lora_path)
     LORA_PREFIX_UNET = 'lora_unet'
     LORA_PREFIX_TEXT_ENCODER = 'lora_te'
@@ -184,61 +233,6 @@ def get_controlnet(cfg_name, model_path, s_from, s_to):
         return TileControlnetConfig(model_path, s_from, s_to)
 
     return None
-
-
-#########################################################################################
-model_config = {
-    'base_model': {
-        'name': 'stable-diffusion-v1-5',
-        'path': 'runwayml/stable-diffusion-v1-5'
-    },
-    'controlnets': [
-        {
-            'name': 'tile',
-            'path': 'lllyasviel/control_v11f1e_sd15_tile',
-            'scale_from': 0.8,
-            'scale_to': 1.1
-        },
-        {
-            'name': 'lineart',
-            'path': 'lllyasviel/control_v11p_sd15_lineart',
-            'scale_from': 0.8,
-            'scale_to': 1.0
-        }
-    ],
-    'loras': [
-        {
-            'name': 'add_detail',
-            'path': '',
-            'scale_from': 0.8,
-            'scale_to': 1.2
-        },
-        {
-            'name': 'epi_noiseoffset2',
-            'path': '',
-            'scale_from': 0.8,
-            'scale_to': 1.0
-        }
-    ]
-}
-
-
-# input image
-image_path = ''
-image_width = 512
-image_height = 512
-# output directory
-output_path = "./controlnet_out/"
-
-#
-generator = torch.manual_seed(0)
-
-prompt = ''
-negative_prompt = ''
-steps = 20
-num_images_per_prompt = 1
-blip_enabled = False
-strength = 0.75
 
 
 #

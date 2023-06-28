@@ -23,12 +23,12 @@ from diffusers import (
 
 schedulers = {
     'UniPCMultistepScheduler': UniPCMultistepScheduler,
-    'EulerDiscreteScheduler': EulerDiscreteScheduler,
-    'EulerAncestralDiscreteScheduler': EulerAncestralDiscreteScheduler,
-    'HeunDiscreteScheduler': HeunDiscreteScheduler,
-    'LMSDiscreteScheduler': LMSDiscreteScheduler,
-    'KDPM2DiscreteScheduler': KDPM2DiscreteScheduler,
-    'KDPM2AncestralDiscreteScheduler': KDPM2AncestralDiscreteScheduler,
+    'EulerDiscreteScheduler' : EulerDiscreteScheduler,
+    'EulerAncestralDiscreteScheduler' : EulerAncestralDiscreteScheduler,
+    'HeunDiscreteScheduler' : HeunDiscreteScheduler,
+    'LMSDiscreteScheduler' : LMSDiscreteScheduler,
+    'KDPM2DiscreteScheduler' : KDPM2DiscreteScheduler,
+    'KDPM2AncestralDiscreteScheduler' : KDPM2AncestralDiscreteScheduler,
     'DDIMScheduler': DDIMScheduler
 }
 
@@ -98,10 +98,8 @@ blip_prompt = blip_processor.decode(blip_out[0], skip_special_tokens=True)
 print(blip_prompt)
 
 prompt = blip_prompt + ', ' + prompt
-#prompt = prompt + ', ' + blip_prompt
 
 #########################################################################################
-#processor = LineartDetector.from_pretrained("/home/zlkh000/krly/lifei/ai-models/lllyasviel/Annotators")
 processor = LineartDetector.from_pretrained("lllyasviel/Annotators")
 
 lineart_image = processor(image)
@@ -143,7 +141,7 @@ controlnets_config = [
     (controlnet_lineart, controlnet_init_scale, controlnet_max_scale, "lineart", lineart_image),
     #(controlnet_depth, controlnet_init_scale, controlnet_max_scale, "depth", depth_image),
     #(controlnet_tile, controlnet_init_scale, controlnet_max_scale, "tile", tile_image),
-    (controlnet_color, 1.0, 1.0, "color", lineart_image),
+    (controlnet_color, 1.0, 1.0, "color", None),
 ]
 
 controlnets = []
