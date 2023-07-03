@@ -316,9 +316,9 @@ lora_scale_params = make_inference_scale_params(lora_scale_list)
 #########################################################################################
 def get_controlnet_pipeline(model, controlnet):
     controlnet_pipeline = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(model,
-                                                                            controlnet=controlnet,
-                                                                            torch_dtype=torch.float16,
-                                                                            safety_checker=None)
+                                                                                   controlnet=controlnet,
+                                                                                   torch_dtype=torch.float16,
+                                                                                   safety_checker=None)
     controlnet_pipeline.to("cuda")
     # pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
     controlnet_pipeline.scheduler = schedulers[schedulers_name].from_config(controlnet_pipeline.scheduler.config)
@@ -364,22 +364,23 @@ for i in range(len(lora_scale_params)):
     d, lora_scales = lora_scale_params[i]
 
     controlnet_pipeline = get_controlnet_pipeline(base_mode_path, controlnets)
+    # load loras
     for x in range(len(lora_scales)):
         lora_name, lora_path = loras[x]
         controlnet_pipeline = __load_lora(controlnet_pipeline,
                                           lora_path,
                                           lora_scales[x])
+    # inference for controlnet scale params
+    for y in range(len(controlnet_scale_params)):
+        controlnet_description, controlnet_scales = controlnet_scale_params
+        inference_param['controlnet_conditioning_scale'] = controlnet_scales
 
-        for y in range(len(controlnet_scale_params)):
-            controlnet_description, controlnet_scales = controlnet_scale_params
-            inference_param['controlnet_conditioning_scale'] = controlnet_scales
+        image_name_prefix = f'{controlnet_description}_{d}'
 
-            image_name_prefix = f'{controlnet_description}_{d}'
+        output_images = controlnet_pipeline(
+            **inference_param
+        ).images
 
-            output_images = controlnet_pipeline(
-                **inference_param
-            ).images
-
-            for image_count in range(len(output_images)):
-                image_name = f'{output_path}{image_name_prefix}_{image_count}.jpg'
-                output_images[image_count].save(image_name)
+        for image_count in range(len(output_images)):
+            image_name = f'{output_path}{image_name_prefix}_{image_count}.jpg'
+            output_images[image_count].save(image_name)
