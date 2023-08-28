@@ -11,13 +11,19 @@ from sagemaker.serializers import JSONSerializer
 from sagemaker.deserializers import JSONDeserializer
 
 #########################################################################################
+# the id of the user who has the permission to access Sagemaker
 ACCESS_KEY_ID = 'AKIA3SVJGCUCB5HWDUYI'
+# the secret key of the user who has the permission to access Sagemaker
 ACCESS_KEY_SECRET = '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'
+# the region of the Sagemaker
 REGION = 'us-east-1'
 
-INSTANCE_TYPE = 'ml.g4dn.xlarge'
+# the instance type of the Sagemaker endpoint
+INSTANCE_TYPE = 'ml.g4dn.2xlarge'
+# python version used on the Sagemaker endpoint
 PYTHON_VERSION = 'py38'
 
+# the instance count of the Sagemaker endpoint
 MIN_ENDPOINT_CAPACITY = 0
 MAX_ENDPOINT_CAPACITY = 8
 
@@ -25,8 +31,8 @@ models = [
     #('TEST-WATERCOLOR-V3', './code_watercolor_v3', 'inference-watercolor_v3.py'),
     #('TEST-OILPAINTING-V8', './code_oil-painting_v8', 'inference-oilpainting_v8.py'),
     #('OILPAINTING-V9', './code_oil-painting_v9', 'inference-oilpainting_v9.py'),
-    ('WATERCOLOR-V5', './code_watercolor_v5', 'inference-watercolor_v5.py'),
-    #('DIGITALOIL-V1', './code_digitaloil_v1', 'inference-digitaloil_v1.py'),
+    #('WATERCOLOR-V5', './code_watercolor_v5', 'inference-watercolor_v5.py'),
+    ('DIGITALOIL-V1', './code_digitaloil_v1', 'inference-digitaloil_v1.py'),
 ]
 
 #########################################################################################
@@ -186,16 +192,39 @@ def make_endpoint_scalable(endpoint_name, min_capacity, max_capacity):
 def test_predict(predictor):
     from sagemaker.async_inference.waiter_config import WaiterConfig
 
+    # for oilpainting
+    # inputs_txt2img = {
+    #     "prompt": "oilpainting\(sargent\), masterpiece, oilpainting style of sargent, a painting of ",
+    #     "negative_prompt": "nsfw, worst quality, zombie, red skin, hole, bad anatomy, blush",
+    #     #"sampler": "dpm2_a",
+    #     "seed": 52362,
+    #     "height": 1080,
+    #     "width": 720,
+    #     "count": 2,
+    #     "input_image": f's3://{bucket}/image/test.jpg'
+    # }
+    # for digitaloil
     inputs_txt2img = {
-        "prompt": "watercolor \(style\), a watercolor painting of ",
+        "prompt": " brush strokes abstract, by John Berkey, ",
         "negative_prompt": "nsfw, worst quality, zombie, red skin, hole, bad anatomy, blush, (greyscale, worst quality),EasyNegativeV2, blue eyes, blurry,",
-        #"sampler": "dpm2_a",
+        # "sampler": "dpm2_a",
         "seed": 52362,
         "height": 1080,
         "width": 720,
         "count": 2,
         "input_image": f's3://{bucket}/image/test.jpg'
     }
+    # for watercolor
+    # inputs_txt2img = {
+    #     "prompt": "watercolor \(style\), a watercolor painting of ",
+    #     "negative_prompt": "nsfw, worst quality, zombie, red skin, hole, bad anatomy, blush, (greyscale, worst quality),EasyNegativeV2, blue eyes, blurry,",
+    #     # "sampler": "dpm2_a",
+    #     "seed": 52362,
+    #     "height": 1080,
+    #     "width": 720,
+    #     "count": 2,
+    #     "input_image": f's3://{bucket}/image/test.jpg'
+    # }
 
     response = predictor.predict_async(inputs_txt2img)
 

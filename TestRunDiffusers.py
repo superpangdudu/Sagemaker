@@ -22,6 +22,9 @@ def doSomething():
     pipe.unet.load_attn_procs(model_path)
     pipe.to("cuda")
 
+    pipe.lora_scale = 0.5
+    pipe.load_lora_weights('')
+
     steps = 100
     gs = 11
 

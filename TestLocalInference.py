@@ -70,11 +70,14 @@ model_config = {
     ]
 }
 
-schedulers_name = 'UniPCMultistepScheduler'
+# name of Scheduler to use
+scheduler_name = 'UniPCMultistepScheduler'
 
-# input image
+# path the input image
 image_path = ''
+# width of image
 image_width = 512
+# height of image
 image_height = 512
 # output directory
 output_path = "./controlnet_out/"
@@ -86,7 +89,7 @@ prompt = ''
 negative_prompt = ''
 steps = 20
 num_images_per_prompt = 1
-blip_enabled = False
+blip_enabled = True
 strength = 0.75
 
 
@@ -108,6 +111,9 @@ from safetensors.torch import load_file
 
 
 def __load_lora(pipeline, lora_path, lora_weight=0.5):
+    # pipeline.lora_scale = lora_weight
+    # pipeline.load_lora_weights(lora_path)
+
     state_dict = load_file(lora_path)
     LORA_PREFIX_UNET = 'lora_unet'
     LORA_PREFIX_TEXT_ENCODER = 'lora_te'
@@ -295,7 +301,6 @@ for i in range(len(model_config['controlnets'])):
     #cfg = get_controlnet(name, path, scale_from, scale_to)
     #controlnet_configs.append(cfg)
 
-
 controlnet_scale_params = make_inference_scale_params(controlnet_scale_list)
 
 #
@@ -321,7 +326,7 @@ def get_controlnet_pipeline(model, controlnet):
                                                                                    safety_checker=None)
     controlnet_pipeline.to("cuda")
     # pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
-    controlnet_pipeline.scheduler = schedulers[schedulers_name].from_config(controlnet_pipeline.scheduler.config)
+    controlnet_pipeline.scheduler = schedulers[scheduler_name].from_config(controlnet_pipeline.scheduler.config)
     controlnet_pipeline.enable_model_cpu_offload()
     controlnet_pipeline.enable_xformers_memory_efficient_attention()
 
@@ -361,7 +366,7 @@ base_mode_name = model_config['base_model']['name']
 base_mode_path = model_config['base_model']['path']
 
 for i in range(len(lora_scale_params)):
-    d, lora_scales = lora_scale_params[i]
+    lora_description, lora_scales = lora_scale_params[i]
 
     controlnet_pipeline = get_controlnet_pipeline(base_mode_path, controlnets)
     # load loras
@@ -375,7 +380,7 @@ for i in range(len(lora_scale_params)):
         controlnet_description, controlnet_scales = controlnet_scale_params
         inference_param['controlnet_conditioning_scale'] = controlnet_scales
 
-        image_name_prefix = f'{controlnet_description}_{d}'
+        image_name_prefix = f'{controlnet_description}_{lora_description}'
 
         output_images = controlnet_pipeline(
             **inference_param

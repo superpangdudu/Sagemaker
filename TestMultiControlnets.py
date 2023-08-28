@@ -190,6 +190,9 @@ def __load_lora(
         , lora_path
         , lora_weight=0.5
 ):
+    # pipeline.lora_scale = lora_weight
+    # pipeline.load_lora_weights(lora_path)
+
     state_dict = load_file(lora_path)
     LORA_PREFIX_UNET = 'lora_unet'
     LORA_PREFIX_TEXT_ENCODER = 'lora_te'

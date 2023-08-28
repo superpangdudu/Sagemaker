@@ -4,25 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69a2e57a-82a5-4cdb-a4a7-a4e33e101e0a" name="Default" comment="New digital oil painting inference, V1">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sagemaker/code_watercolor_v3/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sagemaker/code_watercolor_v5/inference-watercolor_v5.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sagemaker/code_watercolor_v5/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/TestDiffusion.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TestDiffusion.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+    <list default="true" id="69a2e57a-82a5-4cdb-a4a7-a4e33e101e0a" name="Default" comment="Bug fixing">
+      <change afterPath="$PROJECT_DIR$/TestInsightface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TestOpenAI/TestLangChain.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TestOpenAI/runOpenAI.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/ImageFilesInFolder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/p2p/test_stun.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/p2p/test_udp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyTxt2Img.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyTxt2Img.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sagemaker/code_digitaloil_v1/inference-digitaloil_v1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/code_digitaloil_v1/inference-digitaloil_v1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sagemaker/inference-oilpainting_v9.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/inference-oilpainting_v9.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sagemaker/test_create_lambda_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/test_create_lambda_function.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sagemaker/test_deploy_model_in_sagemaker.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/test_deploy_model_in_sagemaker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sagemaker/test_lambda.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/test_lambda.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sagemaker/test_sagemaker_runtime.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/test_sagemaker_runtime.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sagemaker/test_scaling_policy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sagemaker/test_scaling_policy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TestLocalInference.py" beforeDir="false" afterPath="$PROJECT_DIR$/TestLocalInference.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TestMultiControlnets.py" beforeDir="false" afterPath="$PROJECT_DIR$/TestMultiControlnets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestRunDiffusers.py" beforeDir="false" afterPath="$PROJECT_DIR$/TestRunDiffusers.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,23 +30,36 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="c90dc192-f492-4305-a248-577f5a110cb2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2QDaGIRLEB7bBKkZsk4iHRslzyN" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "E:/test/python/test/TestDiffusion/Sagemaker/code_digitaloil_v1",
-    "settings.editor.selected.configurable": "Errors"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/test/python/test/TestDiffusion/Sagemaker/code_digitaloil_v1&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\test\python\test\TestDiffusion\Sagemaker\code_digitaloil_v1" />
@@ -66,8 +72,29 @@
       <recent name="E:\test\python\test\TestDiffusion" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_deploy_model_in_sagemaker (1)">
-    <configuration name="CreateNumberImages" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.TestInsightface">
+    <configuration name="AndroidBuilderEx" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TestDiffusion" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../HelloWorld" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../HelloWorld/AndroidBuilderEx.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ImageFilesInFolder" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="TestDiffusion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -79,7 +106,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/CreateNumberImages.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/ImageFilesInFolder.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -88,28 +115,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="TestConfigParams" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="TestDiffusion" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/TestConfigParams.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestLocalInference" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="TestInsightface" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="TestDiffusion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -121,7 +127,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestLocalInference.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestInsightface.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -130,7 +136,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_deploy_model_in_sagemaker (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test_stun" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="TestDiffusion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -138,11 +144,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sagemaker" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test/p2p" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sagemaker/test_deploy_model_in_sagemaker.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/p2p/test_stun.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -151,7 +157,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_sagemaker_runtime" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test_udp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="TestDiffusion" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -159,11 +165,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sagemaker" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test/p2p" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sagemaker/test_sagemaker_runtime.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/p2p/test_udp.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -174,11 +180,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_deploy_model_in_sagemaker (1)" />
-        <item itemvalue="Python.CreateNumberImages" />
-        <item itemvalue="Python.TestLocalInference" />
-        <item itemvalue="Python.TestConfigParams" />
-        <item itemvalue="Python.test_sagemaker_runtime" />
+        <item itemvalue="Python.TestInsightface" />
+        <item itemvalue="Python.test_udp" />
+        <item itemvalue="Python.test_stun" />
+        <item itemvalue="Python.ImageFilesInFolder" />
+        <item itemvalue="Python.AndroidBuilderEx" />
       </list>
     </recent_temporary>
   </component>
@@ -337,7 +343,35 @@
       <option name="project" value="LOCAL" />
       <updated>1687851923029</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="New water color inference, V5">
+      <created>1687914182582</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1687914182582</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Change default scheduler to DPMSolverSDEScheduler">
+      <created>1687914203420</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1687914203420</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Change default scheduler to DPMSolverSDEScheduler">
+      <created>1687916275082</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1687916275082</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Bug fixing">
+      <created>1688365796940</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1688365796940</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -384,7 +418,10 @@
     <MESSAGE value="New inference script" />
     <MESSAGE value="New Oil painting inference, V9" />
     <MESSAGE value="New digital oil painting inference, V1" />
-    <option name="LAST_COMMIT_MESSAGE" value="New digital oil painting inference, V1" />
+    <MESSAGE value="New water color inference, V5" />
+    <MESSAGE value="Change default scheduler to DPMSolverSDEScheduler" />
+    <MESSAGE value="Bug fixing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fixing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -415,11 +452,6 @@
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/TestLocalInference.py</url>
-          <line>331</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test/CreateNumberImages.py</url>
           <line>16</line>
           <option name="timeStamp" value="18" />
@@ -427,6 +459,11 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Sagemaker/code_digitaloil_v1/inference-digitaloil_v1.py</url>
           <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/TestInsightface.py</url>
+          <line>21</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
